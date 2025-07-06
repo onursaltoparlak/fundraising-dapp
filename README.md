@@ -146,8 +146,6 @@ See the LICENSE file for more info.
 📬 Contact / Support
 For issues or questions:
 
-🐦 Twitter: @onursal_toparlak
-
 ✉️ Email: onursal.toparlak.5@gmail.com
 
 🙏 Acknowledgments
