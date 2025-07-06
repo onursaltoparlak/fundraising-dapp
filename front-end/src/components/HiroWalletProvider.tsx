@@ -52,6 +52,16 @@ export const HiroWalletProvider: FC<ProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Connection failed:', error);
       setIsWalletOpen(false);
+      
+      // Check if it's a user rejection error
+      if (error instanceof Error && error.message.includes('User rejected')) {
+        console.log('User rejected the wallet connection request');
+        // Don't show error to user for rejection, just log it
+        return;
+      }
+      
+      // For other errors, you might want to show a user-friendly message
+      console.error('Wallet connection error:', error);
     }
   }, []);
 

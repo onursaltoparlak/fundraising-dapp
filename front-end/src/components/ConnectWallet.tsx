@@ -31,6 +31,15 @@ export const ConnectWalletButton = (buttonProps: ConnectWalletButtonProps) => {
       ? testnetAddress
       : mainnetAddress;
 
+  const handleConnect = async () => {
+    try {
+      await authenticate();
+    } catch (error) {
+      console.log('Wallet connection was cancelled or failed:', error);
+      // Don't show error to user for cancellation
+    }
+  };
+
   return isWalletConnected ? (
     <Menu>
       <MenuButton as={Button} size="sm" colorScheme="gray">
@@ -46,7 +55,7 @@ export const ConnectWalletButton = (buttonProps: ConnectWalletButtonProps) => {
   ) : (
     <Button
       size="sm"
-      onClick={authenticate}
+      onClick={handleConnect}
       data-testid="wallet-connect-button"
       {...buttonProps}
     >

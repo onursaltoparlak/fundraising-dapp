@@ -1,3 +1,3 @@
-export const CAMPAIGN_TITLE = "Cooking with Crypto";
+export const CAMPAIGN_TITLE = "Revive the Grand Stage";
 export const CAMPAIGN_SUBTITLE =
-  "A Revolutionary Guide to Financial Freedom Through Food";
+  "Community Theater Restoration for Arts & Culture";

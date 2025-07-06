@@ -125,10 +125,10 @@ export default function DonationModal({
 
       const doSuccessToast = (txid: string) => {
         toast({
-          title: "Thank you!",
+          title: "🎭 Thank you for helping raise the curtain!",
           description: (
             <Flex direction="column" gap="4">
-              <Box>Processing donation of ${amount}.</Box>
+              <Box>Your donation brings us closer to showtime.</Box>
               <Box fontSize="xs">
                 Transaction ID: <strong>{txid}</strong>
               </Box>
@@ -152,8 +152,8 @@ export default function DonationModal({
           },
           onCancel: () => {
             toast({
-              title: "Cancelled",
-              description: "Transaction was cancelled",
+              title: "🎭 Transaction Cancelled",
+              description: "The donation transaction was cancelled",
               status: "info",
               duration: 3000,
             });
@@ -164,11 +164,23 @@ export default function DonationModal({
       setSelectedAmount(null);
     } catch (e) {
       console.error(e);
-      toast({
-        title: "Error",
-        description: "Failed to make contribution",
-        status: "error",
-      });
+      
+      // Check if it's a user rejection error
+      if (e instanceof Error && e.message.includes('User rejected')) {
+        toast({
+          title: "🎭 Transaction Cancelled",
+          description: "The donation was cancelled",
+          status: "info",
+          duration: 3000,
+        });
+      } else {
+        toast({
+          title: "🎭 Error",
+          description: "Failed to make contribution. Please try again.",
+          status: "error",
+          duration: 5000,
+        });
+      }
     } finally {
       setIsLoading(false);
       onClose();
@@ -178,8 +190,14 @@ export default function DonationModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Make a Contribution</ModalHeader>
+      <ModalContent
+        sx={{
+          background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%)',
+          borderColor: 'rgba(139, 0, 0, 0.2)',
+          boxShadow: '0 8px 32px rgba(139, 0, 0, 0.3)'
+        }}
+      >
+        <ModalHeader color="#8B0000" fontWeight="bold">🎭 Support the Restoration</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb="8">
           <Flex direction="column" gap="3">
@@ -193,7 +211,7 @@ export default function DonationModal({
                 direction="column"
                 gap="4"
               >
-                <Box>Please connect a STX wallet to make a contribution.</Box>
+                <Box color="#8B0000" fontWeight="bold">🎭 Please connect a STX wallet to support the restoration.</Box>
                 {isDevnetEnvironment() ? (
                   <DevnetWalletButton
                     currentWallet={devnetWallet}
@@ -210,7 +228,7 @@ export default function DonationModal({
                   <Alert mb="4">
                     <Box>
                       <AlertTitle>
-                        Heads up: you&apos;ve contributed before. Thank you!
+                        🎭 Thank you for your previous contribution to the restoration!
                       </AlertTitle>
                       <AlertDescription>
                         <Box>
@@ -229,8 +247,8 @@ export default function DonationModal({
                 ) : null}
                 <Box mx="auto" p={6} borderWidth="1px" borderRadius="lg">
                   <VStack spacing={6} align="stretch">
-                    <Text fontSize="lg" fontWeight="bold">
-                      Choose Payment Method
+                    <Text fontSize="lg" fontWeight="bold" color="#8B0000">
+                      🎭 Choose Payment Method
                     </Text>
 
                     <RadioGroup
@@ -249,8 +267,8 @@ export default function DonationModal({
                       </div>
                     </RadioGroup>
 
-                    <Text fontSize="lg" fontWeight="bold">
-                      Choose Contribution Amount
+                    <Text fontSize="lg" fontWeight="bold" color="#8B0000">
+                      🎭 Choose Contribution Amount
                     </Text>
 
                     <HStack spacing={4} justify="center" wrap="wrap">
@@ -261,8 +279,21 @@ export default function DonationModal({
                           variant={
                             selectedAmount === amount ? "solid" : "outline"
                           }
-                          colorScheme="blue"
                           onClick={() => handlePresetClick(amount)}
+                          sx={{
+                            background: selectedAmount === amount 
+                              ? 'linear-gradient(135deg, #8B0000 0%, #a83232 100%)'
+                              : 'transparent',
+                            color: selectedAmount === amount ? '#FFD700' : '#8B0000',
+                            borderColor: '#8B0000',
+                            fontWeight: 'bold',
+                            _hover: {
+                              background: selectedAmount === amount 
+                                ? 'linear-gradient(135deg, #a83232 0%, #8B0000 100%)'
+                                : 'rgba(139, 0, 0, 0.1)',
+                              transform: 'translateY(-1px)'
+                            }
+                          }}
                         >
                           ${amount}
                         </Button>
@@ -283,17 +314,59 @@ export default function DonationModal({
                       />
                     </NumberInput>
 
+                    <Text fontSize="lg" fontWeight="bold" color="#8B0000">
+                      🪑 Optional: Sponsor a Seat
+                    </Text>
+                    
+                    <Text fontSize="sm" color="gray.600">
+                      Choose a specific seat to sponsor (additional $50)
+                    </Text>
+
+                    <select 
+                      style={{
+                        padding: '8px',
+                        borderRadius: '4px',
+                        border: '1px solid #ccc',
+                        fontSize: '16px'
+                      }}
+                      defaultValue=""
+                    >
+                      <option value="">No seat sponsorship</option>
+                      <option value="A1">Orchestra A1 - $50</option>
+                      <option value="A2">Orchestra A2 - $50</option>
+                      <option value="A3">Orchestra A3 - $50</option>
+                      <option value="B1">Orchestra B1 - $50</option>
+                      <option value="B2">Orchestra B2 - $50</option>
+                      <option value="B3">Orchestra B3 - $50</option>
+                      <option value="C1">Balcony C1 - $50</option>
+                      <option value="C2">Balcony C2 - $50</option>
+                      <option value="C3">Balcony C3 - $50</option>
+                    </select>
+
                     <Flex direction="column" gap="1">
                       <Button
-                        colorScheme="green"
                         size="lg"
                         onClick={handleSubmit}
                         isDisabled={
                           (!selectedAmount && !customAmount) || isLoading
                         }
                         isLoading={isLoading}
+                        sx={{
+                          background: 'linear-gradient(135deg, #8B0000 0%, #a83232 100%)',
+                          color: '#FFD700',
+                          fontWeight: 'bold',
+                          fontSize: 'lg',
+                          _hover: {
+                            background: 'linear-gradient(135deg, #a83232 0%, #8B0000 100%)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 12px rgba(139, 0, 0, 0.4)'
+                          },
+                          _active: {
+                            transform: 'translateY(0)'
+                          }
+                        }}
                       >
-                        Donate ${selectedAmount || customAmount || "0"}
+                        🎭 Support the Restoration - ${selectedAmount || customAmount || "0"}
                       </Button>
                       <Box mx="auto" fontSize="sm" fontWeight="bold">
                         (≈
@@ -316,7 +389,20 @@ export default function DonationModal({
           </Flex>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={onClose}>Close</Button>
+          <Button 
+            onClick={onClose}
+            sx={{
+              background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+              color: '#8B0000',
+              fontWeight: 'bold',
+              _hover: {
+                background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+                transform: 'translateY(-1px)'
+              }
+            }}
+          >
+            Close
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

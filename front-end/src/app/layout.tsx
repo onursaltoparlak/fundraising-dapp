@@ -1,3 +1,4 @@
+import React from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fundraising Campaign",
+  title: "Revive the Grand Stage",
   description:
-    "A crypto fundraising campaign accepting donations in STX & sBTC.",
+    "Support the restoration of our beloved community theater. Donate STX to help us return the magic to the stage!",
 };
 
 export default function RootLayout({
@@ -32,6 +33,25 @@ export default function RootLayout({
           <>
             <Navbar />
             {children}
+            <footer style={{
+              background: 'var(--primary-red)',
+              color: 'var(--primary-gold)',
+              padding: '2rem 0',
+              marginTop: '4rem',
+              textAlign: 'center',
+              fontFamily: 'Georgia, Times New Roman, serif',
+              borderTop: '4px solid var(--primary-gold)'
+            }}>
+              <nav style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                <a href="#about">About the Theater</a>
+                <a href="#restoration">Restoration Plans</a>
+                <a href="#shows">Upcoming Shows</a>
+                <a href="#contact">Contact Us</a>
+              </nav>
+              <div style={{ marginTop: '1rem', fontSize: '0.9rem' }}>
+                &copy; 2025 Revive the Grand Stage. All rights reserved.
+              </div>
+            </footer>
           </>
         </Providers>
       </body>

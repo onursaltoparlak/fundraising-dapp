@@ -121,10 +121,136 @@ export default function CampaignDetails({
   return (
     <Container maxW="container.xl" py="8">
       <Flex direction="column" gap="6">
-        <Flex direction="column" gap="1">
-          <Heading>{CAMPAIGN_TITLE}</Heading>
-          <Text>{CAMPAIGN_SUBTITLE}</Text>
-        </Flex>
+        {/* Hero Section with Theater Curtain Background */}
+        <Box
+          position="relative"
+          borderRadius="lg"
+          p={8}
+          mb={6}
+          overflow="hidden"
+          sx={{
+            background: 'linear-gradient(135deg, #8B0000 0%, #a83232 50%, #8B0000 100%)',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: `
+                repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(139, 0, 0, 0.3) 20px, rgba(139, 0, 0, 0.3) 40px),
+                radial-gradient(ellipse at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%)
+              `,
+              pointerEvents: 'none'
+            }
+          }}
+        >
+          {/* Multiple Spotlight Effects */}
+          <Box
+            position="absolute"
+            top="-30%"
+            left="25%"
+            width="150px"
+            height="150px"
+            borderRadius="50%"
+            background="radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%)"
+            animation="spotlight1 4s ease-in-out infinite alternate"
+            sx={{
+              '@keyframes spotlight1': {
+                '0%': { opacity: 0.2, transform: 'scale(1)' },
+                '100%': { opacity: 0.6, transform: 'scale(1.3)' }
+              }
+            }}
+          />
+          <Box
+            position="absolute"
+            top="-40%"
+            right="20%"
+            width="180px"
+            height="180px"
+            borderRadius="50%"
+            background="radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%)"
+            animation="spotlight2 3.5s ease-in-out infinite alternate"
+            sx={{
+              '@keyframes spotlight2': {
+                '0%': { opacity: 0.3, transform: 'scale(1.1)' },
+                '100%': { opacity: 0.7, transform: 'scale(1.4)' }
+              }
+            }}
+          />
+          <Box
+            position="absolute"
+            top="-35%"
+            left="50%"
+            transform="translateX(-50%)"
+            width="200px"
+            height="200px"
+            borderRadius="50%"
+            background="radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 70%)"
+            animation="spotlight3 3s ease-in-out infinite alternate"
+            sx={{
+              '@keyframes spotlight3': {
+                '0%': { opacity: 0.4, transform: 'translateX(-50%) scale(1)' },
+                '100%': { opacity: 0.8, transform: 'translateX(-50%) scale(1.2)' }
+              }
+            }}
+          />
+          
+          {/* Theater Masks Decoration */}
+          <Box
+            position="absolute"
+            top="10px"
+            left="20px"
+            fontSize="2xl"
+            color="var(--primary-gold)"
+            opacity={0.7}
+          >
+            🎭
+          </Box>
+          <Box
+            position="absolute"
+            top="10px"
+            right="20px"
+            fontSize="2xl"
+            color="var(--primary-gold)"
+            opacity={0.7}
+          >
+            🎭
+          </Box>
+          
+          <Flex direction="column" gap="1" position="relative" zIndex={1}>
+            <Heading 
+              color="var(--primary-gold)" 
+              fontSize={{ base: "3xl", md: "5xl" }}
+              textAlign="center"
+              textShadow="2px 2px 4px rgba(0,0,0,0.5)"
+              fontFamily="Georgia, serif"
+              fontWeight="bold"
+            >
+              {CAMPAIGN_TITLE}
+            </Heading>
+            <Text 
+              color="var(--primary-gold)" 
+              fontSize={{ base: "lg", md: "xl" }}
+              textAlign="center"
+              opacity={0.9}
+              fontFamily="Georgia, serif"
+              fontStyle="italic"
+            >
+              {CAMPAIGN_SUBTITLE}
+            </Text>
+            <Text 
+              color="var(--primary-gold)" 
+              fontSize={{ base: "sm", md: "md" }}
+              textAlign="center"
+              opacity={0.8}
+              fontFamily="Georgia, serif"
+              mt={2}
+            >
+              🎟️ Help us restore our historic community theater — a beacon of culture, memory, and performance 🎟️
+            </Text>
+          </Flex>
+        </Box>
 
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={8} alignItems="start">
           {/* Left column: Image carousel */}
@@ -186,33 +312,44 @@ export default function CampaignDetails({
                 campaignIsWithdrawn={!!campaignInfo?.isWithdrawn}
               />
             ) : null}
-            <Box p={6} borderRadius="lg" borderWidth="1px">
-              {campaignIsUninitialized ? (
-                <Flex direction="column" gap="4">
-                  This campaign hasn&apos;t started yet!
-                </Flex>
-              ) : null}
+            <Box 
+              p={6} 
+              borderRadius="lg" 
+              borderWidth="1px"
+              sx={{
+                background: 'linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%)',
+                borderColor: 'rgba(139, 0, 0, 0.2)',
+                boxShadow: '0 4px 12px rgba(139, 0, 0, 0.1)'
+              }}
+            >
+                              {campaignIsUninitialized ? (
+                  <Flex direction="column" gap="4">
+                    <Text color="#8B0000" fontWeight="bold" textAlign="center">
+                      🎭 The curtain hasn't risen yet! This campaign will begin soon.
+                    </Text>
+                  </Flex>
+                ) : null}
 
               {campaignInfo && !campaignIsUninitialized ? (
                 <Flex direction="column" gap={6}>
                   <SimpleGrid columns={2} spacing={4}>
                     <Stat>
-                      <StatLabel>Raised</StatLabel>
-                      <StatNumber>
+                      <StatLabel color="#8B0000" fontWeight="bold">🎭 Raised</StatLabel>
+                      <StatNumber color="#8B0000">
                         $
                         {campaignInfo?.usdValue?.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}
                       </StatNumber>
-                      <StatHelpText>
+                      <StatHelpText color="#8B0000" opacity={0.8}>
                         of ${campaignInfo?.goal?.toLocaleString()} goal
                       </StatHelpText>
                     </Stat>
                     <Stat>
-                      <StatLabel>Contributions</StatLabel>
-                      <StatNumber>{campaignInfo?.donationCount}</StatNumber>
-                      <StatHelpText>
+                      <StatLabel color="#8B0000" fontWeight="bold">🎟️ Patrons</StatLabel>
+                      <StatNumber color="#8B0000">{campaignInfo?.donationCount}</StatNumber>
+                      <StatHelpText color="#8B0000" opacity={0.8}>
                         {campaignIsExpired ? (
                           <Flex direction="column">
                             <Box>
@@ -267,15 +404,19 @@ export default function CampaignDetails({
                     <Progress
                       value={progress}
                       size="lg"
-                      colorScheme="green"
                       borderRadius="full"
+                      sx={{
+                        '& > div': {
+                          background: 'linear-gradient(90deg, #FFD700 0%, #FFA500 100%)',
+                        }
+                      }}
                     />
                   </Box>
 
                   {campaignIsExpired || campaignIsCancelled ? (
                     <Flex direction="column" gap="2">
-                      <Box>
-                        This fundraiser{" "}
+                      <Box color="#8B0000" fontWeight="bold">
+                        🎭 This fundraiser{" "}
                         {campaignIsCancelled ? "was cancelled" : "has ended"}.
                         {campaignIsCancelled
                           ? " Contributors are eligible for a refund."
@@ -303,11 +444,23 @@ export default function CampaignDetails({
                             </AlertDescription>
                             <Box mt="4">
                               {!campaignIsCancelled ? (
-                                <Box>Thanks for your contribution!</Box>
+                                <Box color="#8B0000" fontWeight="bold">🎭 Thank you for helping raise the curtain! Your donation brings us closer to showtime.</Box>
                               ) : (
                                 <Button
-                                  colorScheme="green"
                                   onClick={handleRefund}
+                                  sx={{
+                                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                                    color: '#8B0000',
+                                    fontWeight: 'bold',
+                                    _hover: {
+                                      background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+                                      transform: 'translateY(-2px)',
+                                      boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4)'
+                                    },
+                                    _active: {
+                                      transform: 'translateY(0)'
+                                    }
+                                  }}
                                 >
                                   Request a Refund
                                 </Button>
@@ -321,23 +474,36 @@ export default function CampaignDetails({
                     <Flex direction="column" gap="4">
                       <Button
                         size="lg"
-                        colorScheme="green"
                         width="full"
                         onClick={() => {
                           setIsDonationModalOpen(true);
                         }}
+                        sx={{
+                          background: 'linear-gradient(135deg, #8B0000 0%, #a83232 100%)',
+                          color: '#FFD700',
+                          fontWeight: 'bold',
+                          fontSize: 'lg',
+                          _hover: {
+                            background: 'linear-gradient(135deg, #a83232 0%, #8B0000 100%)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 12px rgba(139, 0, 0, 0.4)'
+                          },
+                          _active: {
+                            transform: 'translateY(0)'
+                          }
+                        }}
                       >
-                        Contribute Now
+                        🎭 Support the Restoration
                       </Button>
-                      <Box fontSize="xs">
+                      <Box fontSize="xs" color="#8B0000" opacity={0.8}>
                         <Box mb="2">
-                          <strong>Flexible funding</strong>: Creator keeps
-                          whatever money they raise, even if they don&apos;t hit
-                          their target. No refunds to backers if the campaign
+                          <strong>🎭 Flexible funding</strong>: The restoration committee keeps
+                          whatever funds are raised, even if we don&apos;t hit
+                          our target. No refunds to patrons if the campaign
                           falls short.
                         </Box>
                         <Box>
-                          The creator can always choose to cancel this
+                          The committee can always choose to cancel this
                           fundraiser and provide refunds.
                         </Box>
                       </Box>
