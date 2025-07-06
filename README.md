@@ -1,6 +1,6 @@
 # 🎭 Revive the Grand Stage
 
-![Project Banner]![theater](https://github.com/user-attachments/assets/07897e11-c17f-4069-9c6f-6a107f540147)
+[theater](https://github.com/user-attachments/assets/07897e11-c17f-4069-9c6f-6a107f540147)
 
 
 A fundraising DApp built on the Stacks blockchain to support the restoration of a historic community theater — preserving culture, history, and local talent through Web3.
